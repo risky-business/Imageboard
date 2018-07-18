@@ -8,7 +8,13 @@ CREATE TABLE images(
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    image_id INTEGER REFERENCE images(id),
+    username VARCHAR(100) NOT NULL,
+    comment TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 
 INSERT INTO images (url, username, title, description) VALUES (

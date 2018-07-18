@@ -8,16 +8,44 @@
     <h1>My IMAGE board</h1>
     <h2>Latest Images</h2>
 
+
+
+
+
     <div id="main" v-if="images.length >  0">
 
 
+
+        <input v-model="imageToUpload.title" type="text" name=""  placeholder="title">
+        <input v-model="imageToUpload.desc" type="text" name=""  placeholder="Description">
+        <input v-model="imageToUpload.username" type="text" name=""  placeholder="username">
+
+
+        <label for="file-field">select image</label>
+        <input type="file" id="file-field" @change="imageSelected">
+        <button @click="upload()">upload</button>
+
+
         <div class="image-container" v-for="image in images">
-            <img class="image"  :src="image.url">
+            <img class="image"  :src="image.url" @click="showModal(image.id)">
             <h4>{{image.title}}</h4>
         </div>
+        <image-modal v-if="imageId" :key="imageId" :id='imageId'@myevent='remove'></image-modal>
+
+
 
 </div>
+<script  id="image-template" type="text/my-template">
+            <div @click="close" class="image-modal">
+                <div class="inner-modal">
+                    <img v-bind:src="url" alt=""/>
+                    <h1>{{ title }}</h1>
+                    <p>{{ desc }}</p>
+                    <vue-comments></vue-comments>
+                </div>
+            </div>
 
+        </script>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src='/js/script.js'></script>
