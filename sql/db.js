@@ -31,3 +31,19 @@ exports.getImagesId = function(id) {
         return results.rows[0];
     });
 };
+exports.addComments = function(image_id, username, comment) {
+    const q = `INSERT INTO comments (image_id, username,comment)
+    VALUES($1, $2, $3)
+    RETURNING *`;
+    const params = [image_id, username || null, comment || null];
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};
+exports.getComments = function(id) {
+    const params = [id];
+    const q = "SELECT * FROM comments WHERE image_id = $1;";
+    return db.query(q, params).then(results => {
+        return results.rows;
+    });
+};

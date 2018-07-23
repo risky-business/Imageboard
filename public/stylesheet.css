@@ -1,3 +1,22 @@
+/* html {
+    background-image: url("colorful.jpg");
+} */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    /* background-color: #99b3ff; */
+}
+.top-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#top-inputs {
+    display: flex;
+    justify-content: flex-end;
+}
 #id {
     display: inline;
 }
@@ -6,14 +25,20 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 30px;
     margin-right: 25px;
+    background-color: white;
+    margin: 20px;
 }
 
 .image-container {
+    display: flex;
     width: 100%;
     /* height: 50%; */
     border: 1px solid black;
     border-radius: 5%;
     padding: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 .image {
     object-fit: cover;
@@ -34,6 +59,7 @@ label {
     border: 2px tomato solid;
     border-radius: 5px;
 }
+
 .image-modal {
     display: flex;
     justify-content: center;
@@ -47,9 +73,59 @@ label {
 .inner-modal img {
     width: 350px;
     height: 350px;
+    /* grid-column: 1/ 1;
+    grid-row: 1 / span 2; */
 }
 .inner-modal {
-    width: 700px;
-    height: 700px;
-    background-color: blue;
+    position: absolute;
+    width: 1000px;
+    height: 500px;
+    background-color: white;
+    z-index: -1;
+}
+.our-comments {
+    grid-column: 2/ 2;
+    grid-row: 1 / 1;
+}
+#close-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+h1 {
+    grid-column: 1/ 1;
+    grid-row: 2 / 2;
+}
+.inputPhotos {
+    display: flex;
+
+    width: 40%;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.upload {
+    width: 50%;
+}
+.select-images {
+    width: 40%;
+}
+.mywrap {
+    margin-left: 100px;
+    margin-top: 50px;
+    /* display: block; */
+}
+.image-top {
+    margin-bottom: 50px;
+}
+.button-modal {
+    display: flex;
+    justify-content: flex-end;
+}
+.image-mdl img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 500px;
 }

@@ -3,10 +3,11 @@
 <head>
     <title>Imageboard</title>
     <link rel="stylesheet" href="/stylesheet.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 </head>
 <body>
-    <h1>My IMAGE board</h1>
-    <h2>Latest Images</h2>
+
+
 
 
 
@@ -15,37 +16,76 @@
     <div id="main" v-if="images.length >  0">
 
 
+        <div class='mywrap'>
 
-        <input v-model="imageToUpload.title" type="text" name=""  placeholder="title">
-        <input v-model="imageToUpload.desc" type="text" name=""  placeholder="Description">
-        <input v-model="imageToUpload.username" type="text" name=""  placeholder="username">
+            <h1 class='image-top'><i class="fas fa-camera-retro"> board </i></h1>
+            <!-- <h2>latest images</h2> -->
 
+        <input class='inputPhotos ' v-model="imageToUpload.title" type="text" name=""  placeholder="title">
+        <input class='inputPhotos' v-model="imageToUpload.desc" type="text" name=""  placeholder="Description">
+        <input class='inputPhotos ' v-model="imageToUpload.username" type="text" name=""  placeholder="username">
 
-        <label for="file-field">select image</label>
+        <label class='select-images'for="file-field">   select image</label>
         <input type="file" id="file-field" @change="imageSelected">
-        <button @click="upload()">upload</button>
-
+        <button class='upload' @click='upload()'>upload</button>
+        </div>
 
         <div class="image-container" v-for="image in images">
             <img class="image"  :src="image.url" @click="showModal(image.id)">
             <h4>{{image.title}}</h4>
         </div>
-        <image-modal v-if="imageId" :key="imageId" :id='imageId'@myevent='remove'></image-modal>
+        <image-modal v-if="imageId" :key="imageId" :image-id='imageId'@myevent='remove'></image-modal>
 
-
+        <!-- <div id="addmore"><button @click='showMoreImages'>MorePictures</button></div> -->
 
 </div>
+
 <script  id="image-template" type="text/my-template">
-            <div @click="close" class="image-modal">
+            <div  class="image-modal">
                 <div class="inner-modal">
+                <div class='button-modal'
+                <button id='close-button'@click="close">&#10006</button>
+                </div>
+                <div class='image-mdl'>
                     <img v-bind:src="url" alt=""/>
+                </div>
                     <h1>{{ title }}</h1>
                     <p>{{ desc }}</p>
-                    <vue-comments></vue-comments>
+
+
+
+
+                    <vue-comments class="our-commments" :image-id='imageId'></vue-comments>
                 </div>
             </div>
 
         </script>
+
+
+        <script id="modal-comments-template" type="text/my-template">
+            <div>
+            <input v-model="comments" type="text" name=""  placeholder="comment">
+            <input v-model="username" type="text" name=""  placeholder="username">
+            <button @click="commentsSubmit()">submit</button>
+            <div v-if="commentsR.length >  0">
+            <div v-for="commen in commentsR">
+
+                <h4>{{commen.username}}</h4>
+                <h4>{{commen.comment}}</h4>
+                <h4>{{commen.created_at}}</h4>
+            </div>
+
+
+            </div>
+
+
+
+            </div>
+
+
+        </script>
+
+
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src='/js/script.js'></script>

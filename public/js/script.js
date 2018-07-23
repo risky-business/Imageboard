@@ -2,23 +2,58 @@
     Vue.component("vue-comments", {
         data: function() {
             return {
-                message: "HELLO THERE MATE"
+                heading: "comments",
+                comments: "",
+                username: "",
+                commentsR: []
             };
         },
-        template: "<div>{{message}}</div>"
+        props: ["imageId"],
+        mounted: function() {
+            var self = this;
+            axios.get("/comments/" + this.imageId).then(results => {
+                console.log(results.data);
+                self.commentsR = results.data;
+            });
+        },
+        methods: {
+            commentsSubmit: function() {
+                var self = this;
+                axios
+                    .post("/comments", {
+                        image_id: self.imageId,
+                        comment: self.comments,
+                        username: self.username
+                    })
+                    .then(res => {
+                        if (res.data.success) {
+                            console.log(res.data);
+                            self.commentsR.unshift(res.data.results);
+                            self.comments = "";
+                            self.username = "";
+                        } else {
+                            console.log("error");
+                        }
+                    })
+                    .catch(err => {
+                        console.log("err", err);
+                    });
+            }
+        },
+        template: "#modal-comments-template"
     });
 
     Vue.component("image-modal", {
         data: function() {
             return {
-                title: "title",
+                title: "",
                 url: ""
             };
         },
-        props: ["id"],
+        props: ["imageId"],
         mounted: function() {
             var self = this;
-            axios.get("/images/" + this.id).then(results => {
+            axios.get("/images/" + this.imageId).then(results => {
                 console.log(results);
                 console.log(self.anything);
                 self.title = results.data.title;
@@ -42,7 +77,7 @@
                 username: ""
             },
             images: [],
-            imageId: null
+            imageId: 0
         },
         mounted: function() {
             var self = this;

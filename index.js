@@ -26,7 +26,7 @@ const uploader = multer({
         fileSize: 2097152
     }
 });
-
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"));
 
@@ -44,14 +44,6 @@ app.get("/images/:id", (req, res) => {
 // app.get("/comment/:imageid", (req, res) => {});
 
 app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
-    if (req.file) {
-        console.log(req.file);
-
-        res.json({ success: true });
-    } else {
-        console.log("something is wrong, check for error");
-        res.json({ success: false });
-    }
     db.insertImage(
         config.s3Url + req.file.filename,
         req.body.username,
@@ -63,6 +55,27 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
             image: results
         });
     });
+});
+app.post("/comments", function(req, res) {
+    db.addComments(req.body.image_id, req.body.comment, req.body.username).then(
+        results => {
+            console.log(results);
+            res.json({
+                success: true,
+                results
+            });
+        }
+    );
+});
+app.get("/comments/:id", (req, res) => {
+    db.getComments(req.params.id)
+        .then(results => {
+            console.log(results);
+            res.json(results);
+        })
+        .catch(err => {
+            console.log("error", err);
+        });
 });
 
 const port = 8080;
